@@ -3,8 +3,14 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-global.Login = require("./api/models/loginModel");
-const routes = require("./api/routes/loginRoutes");
+global.Login = require("./api/models/userModel");
+const routesUser = require("./api/routes/userRoutes");
+
+routesUser(app);
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(cors());
 
 mongoose.Promise = global.Promise;
 mongoose.connect(
@@ -16,4 +22,8 @@ const port = process.env.PORT || 1337;
 
 app.listen(port, () => {
   console.log(`The server is running on http://localhost:${port}`);
+});
+
+app.use((req, res) => {
+  res.status(404).send({ url: `${req.originalUrl} not found` });
 });
