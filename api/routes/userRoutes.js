@@ -1,10 +1,10 @@
 const userBuilder = require("../controllers/userController");
 
 module.exports = (app) => {
-  app.route("/user").get(userBuilder.readUsers).post(userBuilder.createUser);
+  app.route("/users").get(userBuilder.readUsers).post(userBuilder.createUser);
 
   app
-    .route("/user/:userId")
+    .route("/users/:userId")
     .get(userBuilder.readUser)
     .put(userBuilder.updateUser)
     .delete(userBuilder.destroyUser);

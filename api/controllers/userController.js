@@ -35,12 +35,12 @@ exports.updateUser = (req, res) => {
   );
 };
 
-exports.destroyUser = (res, res) => {
-  User.deleteOne({ _id: req.params, userId }, (err) => {
+exports.destroyUser = (req, res) => {
+  User.deleteOne({ _id: req.params.userId }, (err) => {
     if (err) res.send(err);
     res.json({
-      message: "Word sccessfully deleted",
-      _id: req.params.wordId,
+      message: "Word successfully deleted",
+      _id: req.params.userId,
     });
   });
 };

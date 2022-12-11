@@ -19,9 +19,9 @@ const UserSchema = new Schema(
       type: String,
       required: "A passord is required",
     },
-    watchlists: {
-      type: Array,
-    },
+    // watchlists: {
+    //   type: Array,
+    // },
   },
   { collection: "user" }
 );

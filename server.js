@@ -4,13 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 global.Login = require("./api/models/userModel");
-const routesUser = require("./api/routes/userRoutes");
-
-routesUser(app);
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(cors());
+const routes = require("./api/routes/userRoutes");
 
 mongoose.Promise = global.Promise;
 mongoose.connect(
@@ -18,6 +12,11 @@ mongoose.connect(
 );
 
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(cors());
+routes(app);
 const port = process.env.PORT || 1337;
 
 app.listen(port, () => {
