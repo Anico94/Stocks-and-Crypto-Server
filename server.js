@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const bcrypt = require("bcrypt");
 
 global.Login = require("./api/models/userModel");
 const routes = require("./api/routes/userRoutes");
@@ -16,6 +17,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
+app.options("*", cors());
 routes(app);
 const port = process.env.PORT || 1337;
 

@@ -12,6 +12,7 @@ const UserSchema = new Schema(
       required: "Last name cannot be blank",
     },
     email: {
+      unique: true,
       type: String,
       required: "Email cannot be blank",
     },
@@ -19,11 +20,11 @@ const UserSchema = new Schema(
       type: String,
       required: "A passord is required",
     },
-    // watchlists: {
-    //   type: Array,
-    // },
+    watchlists: {
+      type: Array,
+    },
   },
-  { collection: "user" }
+  { collection: "users" }
 );
 
 module.exports = mongoose.model("User", UserSchema);
