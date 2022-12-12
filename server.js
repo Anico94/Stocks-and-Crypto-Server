@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
+require("dotenv").config();
 
 global.Login = require("./api/models/userModel");
 const routes = require("./api/routes/userRoutes");
