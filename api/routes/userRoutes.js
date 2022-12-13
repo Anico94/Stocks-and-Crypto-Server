@@ -7,6 +7,8 @@ module.exports = (app) => {
 
   app.route("/users").get(userBuilder.getUser);
 
+  app.route("/users").put(userBuilder.updateWatchlists);
+
   app
     .route("/users/:userId")
     .put(userBuilder.updateUser)

@@ -11,7 +11,6 @@ exports.readUsers = (req, res) => {
 };
 
 exports.createUser = (req, res) => {
-  console.log(req.body);
   const newUser = new User({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -71,9 +70,34 @@ exports.getUser = (req, res) => {
   });
 };
 
+exports.updateWatchlists = (req, res) => {
+  console.log(req);
+  let token = req.body.headers.token;
+  jwt.verify(token, "secretkey", (err, decoded) => {
+    if (err) {
+      console.log(err);
+      return res.json({
+        title: "unauthorised",
+      });
+    }
+    console.log("HERE");
+
+    console.log(decoded.userId);
+    User.findByIdAndUpdate(
+      decoded.userId,
+      { watchlists: [...req.body.currentWatchlists, req.body.stock] },
+      { new: true },
+      (err, user) => {
+        if (err) res.send(err);
+        res.json(user);
+      }
+    );
+  });
+};
+
 exports.updateUser = (req, res) => {
   User.findOneAndUpdate(
-    { _id: req.params.wordId },
+    { _id: req.params.userId },
     req.body,
     { new: true },
     (err, user) => {
