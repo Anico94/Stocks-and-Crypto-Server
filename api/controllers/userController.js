@@ -159,6 +159,16 @@ exports.deleteHolding = (req, res) => {
   });
 };
 
+// exports.requestNews = async (req, res) => {
+//   const APIKEY = process.env.NODE_APP_API_KEY;
+//   const stockCode = "AMZN";
+//   console.log(APIKEY);
+//   const URL = `https://api.marketaux.com/v1/news/all?symbols=${stockCode}&filter_entities=true&language=en&api_token=${APIKEY}`;
+//   const response = await axios.get(URL);
+//   res.json("response");
+//   console.log(response);
+// };
+
 // exports.readUsers = (req, res) => {
 //   User.find({}, (err, users) => {
 //     if (err) res.send(err);

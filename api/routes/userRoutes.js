@@ -10,6 +10,8 @@ module.exports = (app) => {
   app.route("/users/watchlist").post(userBuilder.addHolding);
   app.route("/users/watchlist").delete(userBuilder.deleteHolding);
 
+  // app.route("/request").get(userBuilder.requestNews);
+
   // app
   //   .route("/users/:userId")
   //   .put(userBuilder.updateUser)
