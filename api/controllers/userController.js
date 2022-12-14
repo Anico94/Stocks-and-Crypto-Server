@@ -3,13 +3,6 @@ const User = mongoose.model("User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-exports.readUsers = (req, res) => {
-  User.find({}, (err, users) => {
-    if (err) res.send(err);
-    res.json(users);
-  });
-};
-
 exports.createUser = (req, res) => {
   const newUser = new User({
     firstName: req.body.firstName,
@@ -70,8 +63,27 @@ exports.getUser = (req, res) => {
   });
 };
 
-exports.updateWatchlists = (req, res) => {
-  console.log(req);
+exports.getHolding = (req, res) => {
+  let token = req.headers.token;
+  jwt.verify(token, "secretkey", (err, decoded) => {
+    if (err) {
+      console.log(err);
+      return res.json({
+        title: "unauthorised",
+      });
+    }
+    User.findById(decoded.userId, (err, user) => {
+      if (err) return res.send(err);
+      res.json({
+        user: {
+          watchlists: user.watchlists[req.headers.index],
+        },
+      });
+    });
+  });
+};
+
+exports.addHolding = (req, res) => {
   let token = req.body.headers.token;
   jwt.verify(token, "secretkey", (err, decoded) => {
     if (err) {
@@ -80,9 +92,6 @@ exports.updateWatchlists = (req, res) => {
         title: "unauthorised",
       });
     }
-    console.log("HERE");
-
-    console.log(decoded.userId);
     User.findByIdAndUpdate(
       decoded.userId,
       { watchlists: [...req.body.currentWatchlists, req.body.stock] },
@@ -95,24 +104,86 @@ exports.updateWatchlists = (req, res) => {
   });
 };
 
-exports.updateUser = (req, res) => {
-  User.findOneAndUpdate(
-    { _id: req.params.userId },
-    req.body,
-    { new: true },
-    (err, user) => {
-      if (err) res.send(err);
-      res.json(user);
+exports.updateHolding = (req, res) => {
+  let token = req.body.headers.token;
+  jwt.verify(token, "secretkey", (err, decoded) => {
+    if (err) {
+      console.log(err);
+      return res.json({
+        title: "unauthorised",
+      });
     }
-  );
-};
-
-exports.destroyUser = (req, res) => {
-  User.deleteOne({ _id: req.params.userId }, (err) => {
-    if (err) res.send(err);
-    res.json({
-      message: "Word successfully deleted",
-      _id: req.params.userId,
-    });
+    const current = req.body.headers.holdings;
+    current[req.body.headers.index] = req.body.headers.holding;
+    console.log(req.body.headers.holding);
+    console.log(req.body.headers.holdings);
+    console.log(req.body.headers.index);
+    User.findByIdAndUpdate(
+      decoded.userId,
+      { watchlists: current },
+      { new: true },
+      (err, user) => {
+        if (err) res.send(err);
+        res.json(user);
+      }
+    );
   });
 };
+
+exports.deleteHolding = (req, res) => {
+  console.log(req);
+  console.log(req.headers.index);
+  console.log(req.headers.currentwatchlists);
+  let token = req.headers.token;
+  jwt.verify(token, "secretkey", (err, decoded) => {
+    if (err) {
+      console.log(err);
+      return res.json({
+        title: "unauthorised",
+      });
+    }
+
+    User.findByIdAndUpdate(
+      decoded.userId,
+      {
+        watchlists: JSON.parse(req.headers.currentwatchlists).filter(
+          (value, index, item) => index != req.headers.index
+        ),
+      },
+      { new: true },
+      (err, user) => {
+        if (err) res.send(err);
+        res.json(user);
+      }
+    );
+  });
+};
+
+// exports.readUsers = (req, res) => {
+//   User.find({}, (err, users) => {
+//     if (err) res.send(err);
+//     res.json(users);
+//   });
+// };
+
+// exports.updateUser = (req, res) => {
+//   User.findOneAndUpdate(
+//     { _id: req.params.userId },
+//     req.body,
+//     { new: true },
+//     (err, user) => {
+//       if (err) res.send(err);
+//       res.json(user);
+//     }
+//   );
+// };
+
+// exports.destroyUser = (req, res) => {
+//   User.deleteOne({ _id: req.params.userId }, (err) => {
+//     if (err) res.send(err);
+//     res.json({
+//       message: "User successfully deleted",
+//       _id: req.params.userId,
+//     });
+//   });
+// };
