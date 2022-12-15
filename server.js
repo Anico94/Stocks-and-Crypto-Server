@@ -16,7 +16,7 @@ mongoose.connect(
 
 const app = express();
 
-app.get("/", (res, req) => {
+app.get("/", (req, res) => {
   res.json("hello");
 });
 
