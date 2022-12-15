@@ -16,6 +16,10 @@ mongoose.connect(
 
 const app = express();
 
+app.get("/", (res, req) => {
+  res.json("hello");
+});
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
