@@ -2,8 +2,8 @@
 
 Please visit the [Stock Server Code](https://github.com/Anico94/Stocks-and-Crypto-Server) that is the for the server of this project
 
-![Home Page](/src/assets/readme1.png "Home Page")
-![Home Page](/src/assets/readme2.png "Home Page")
+![Home Page](/assets/readme1.png "Home Page")
+![Home Page](/assets/readme2.png "Home Page")
 
 # A Stock Recording and Search Application
 
